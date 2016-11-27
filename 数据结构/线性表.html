@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type = "text/javascript">
+        //var array = new Array(1,2,3,4,5,6);
+        var Node = function(newData){
+            this.next = null;
+            this.data = null;
+            this.Init = function(){
+                this.data = newData;
+            };
+            this.Init();
+        };
+        var List = function(){
+            this.head = null;
+            this.size = 0;
+            this.Init = function(){
+                this.head = null;
+                this.size = 0;
+            };
+            this.Init();
+
+            this.Insert = function(newData){
+                this.size += 1;
+                var newNode = new Node(newData);
+                if(this.head == null){
+                    this.head = newNode;
+                    return;
+                }
+                var tempNode = this.head;
+                while(tempNode.next != null)
+                    tempNode = tempNode.next;
+                tempNode.next = newNode;
+            };
+
+            this.GetData = function(pos){
+                if(pos >= this.size || pos < 0)
+                    return null;
+                else{
+                    tempNode = this.head;
+                    for(i = 0;i < pos;i++)
+                        tempNode = tempNode.next;
+                    return tempNode.data;
+                }
+            };
+            this.Remove = function(pos){
+                if(pos >= this.size || pos < 0)
+                    return null;
+                this.size -= 1;
+                tempNode = this.head;
+                if(pos == 0){
+                    this.head = this.head.next;
+                    return this.head;
+                }
+                for(i = 0;i < pos - 1;i++){
+                    tempNode = tempNode.next;
+                }
+                tempNode.next = tempNode.next.next;
+                return tempNode.next;
+
+            };
+
+            this.Print = function(){
+                tempNode = this.head;
+                while(tempNode != null){
+                    console.log(tempNode.data);
+                    addnode(tempNode.data);
+                    tempNode = tempNode.next;
+                }
+            };
+            this.search = function(sdata){
+                tempNode = this.head;
+                while(tempNode != null){
+//console.log(tempNode.data);
+                    if(tempNode.data!=sdata){
+//tempNode.data=1;
+                        addnode(tempNode.data);
+                    }else{
+                        addothernode(tempNode.data);
+                    }
+                    tempNode = tempNode.next;
+                }
+            };
+            this.order = function(){
+                var i = this.size, j=0,s=0,d=0;
+                var tempExchangVal;
+                tempNode = this.head;
+                while (i >= 0) {
+                    for (j = 0; j < i - 1; j++) {
+                        if (this.GetData(j) > this.GetData(j + 1)) {
+                            tempExchangVal = this.GetData(j);
+                            for(s;s<j;s++){
+                                tempNode = tempNode.next;
+                            }
+                            tempNode.data = this.GetData(j + 1);
+                            tempNode = tempNode.next;
+                            tempNode.data = tempExchangVal;
+                        }
+                    }
+                    i--;
+                }
+            }
+        };
+
+        var list = new List();
+        function insert(num){
+            list.Insert(num);
+            show();
+        }
+        function removen(poz){
+            list.Remove(poz);
+            show();
+        }
+        function search(num){
+            clear();
+            list.search(num);
+        }
+        function show(){
+            clear();
+            list.Print();
+        }
+        function order(){
+            list.order();
+            show();
+        }
+
+
+    </script>
+</head>
+<body style="margin:0px;padding:0px;background:#eee;">
+<div class="header">
+    <input class='n_i' id="num" placeholder="节点数据" type='number'/>
+    <button onclick="insert(document.getElementById('num').value)">
+        添加
+    </button>
+
+    <input class='n_i' id="which" placeholder="节点位置" type='number'/>
+    <button onclick="removen(document.getElementById('which').value)">
+        删除
+    </button>
+
+    <input class='n_i' id="se" placeholder="搜索数据" type='number'/>
+    <button onclick="search(document.getElementById('se').value)">
+        搜索
+    </button>
+    <button onclick="order()">
+        排序
+    </button>
+</div>
+<div class='main' id="main">
+
+</div>
+<style>
+    button{
+        background: #328702;
+        height:40px;width:100px;border:none;
+        color: #fff;
+        text-align: center;
+        margin-top: 3px; margin-left: 20px;border-radius: 5px;
+        text-indent: 10px ;
+        box-shadow: 0px 0px 1px 1px #999999;
+    }
+    .n_i{
+        height:30px;width:80px;border:solid 1px #aaa;
+        margin-top: 10px; margin-left: 20px;border-radius: 5px;
+        text-indent: 10px ;
+        box-shadow: 0px 0px 1px 2px #eee inset;
+    }
+    .header{
+        width: 100%;
+        height: 53px;
+        background: #fff;
+        box-shadow: 0px 0px 1px 1px #aaa;
+
+    }
+    .main{
+        padding:10px;
+        margin-top:20px;
+    }
+    .node{
+        width:40px;
+        height:40px;
+        line-height: 40px;
+        color:#fff;
+        font-weight: bolder;
+        text-align: center;
+        font-size: 15px;
+        border:solid 2px #fff;
+        background: #328702;
+        border-radius: 100px;
+    }
+    .nj{
+        width:15px;
+        height:40px;
+        line-height: 40px;
+        color:#328702;
+        font-weight: bolder;
+        text-align: center;
+        font-size: 15px;
+        background:#eee ;
+        border: none;
+    }
+    .node:hover{
+        border:solid 2px #ff0000;
+        color: #ff0000;
+    }
+    .nodeother:hover{
+        border:solid 2px #000;
+    }
+    .nodeother{
+        width:40px;
+        height:40px;
+        line-height: 40px;
+        color:#fff;
+        font-weight: bolder;
+        text-align: center;
+        font-size: 15px;
+        background: #dddd02;
+        border-radius: 100px;
+        border:solid 2px #fff;
+    }
+</style>
+<script>
+    var oDiv = document.getElementById('main');
+    function clear(){
+        var childs=oDiv.childNodes;
+        for(var i=childs.length-1;i>=0;i--){
+            oDiv.removeChild(childs.item(i));
+        }
+    }
+    function addnode(num){
+        var oSpan = document.createElement('input');
+        oSpan.className = "node";
+        oSpan.value=num;
+        var oJ = document.createElement('input');
+        oJ.className = "nj";
+        oJ.value="->";
+        oDiv.appendChild(oSpan);
+        oDiv.appendChild(oJ);
+    }
+    function addothernode(num){
+        var oSpan = document.createElement('input');
+        oSpan.className = "nodeother";
+        oSpan.value=num;
+        var oJ = document.createElement('input');
+        oJ.className = "nj";
+        oJ.value="->";
+        oDiv.appendChild(oSpan);
+        oDiv.appendChild(oJ);
+    }
+</script>
+</body>
+</html>
